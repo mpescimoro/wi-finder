@@ -54,7 +54,7 @@ def seek():                        # definisce una funzione per analizzare della
 count = new_count = seek()
 
 # controlla che il numero di indirizzi attivi rimanga invariato
-while (new_count == count):
+while (new_count <= count):
     new_count = seek()
 
 # DANGER!!!
