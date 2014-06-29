@@ -51,7 +51,7 @@ def seek():                        # defines a function to analize the network
     return count                   # returns the number of addresses
 
 def beep():                        # avoids OS dependency with a system beep
-    print ('\a')             
+    print('\a')             
     
 if __name__ == '__main__':
     count = new_count = seek()
