@@ -20,12 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
 import os
-import nmap                         # importa nmap.py
-import time                         
+import nmap                         # import nmap.py
+import time
 import winsound
 
 try:
-    nm = nmap.PortScanner()         # crea un'istanza di nmap.PortScanner
+    nm = nmap.PortScanner()         # creates an'instance of nmap.PortScanner
 except nmap.PortScannerError:
     print('Nmap not found', sys.exc_info()[0])
     sys.exit(0)
@@ -33,27 +33,27 @@ except:
     print("Unexpected error:", sys.exc_info()[0])
     sys.exit(0)
 
-def seek():                        # definisce una funzione per analizzare della rete
+def seek():                        # defines a function to analize the network
     count = 0
     nm.scan(hosts='192.168.1.0/24', arguments='-n -sP -T4')
-    # effettua un ping sweep veloce
+    # runs a quick ping sweep
 
     hosts_list = [(x) for x in nm.all_hosts()]
-    # salva la lista degli host
+    # saves the host list
 
     localtime = time.asctime(time.localtime(time.time()))
     print('Local current time :', localtime)
-    # stampa l'orario di sistema
+    # print out system time
     
-    for host in hosts_list:        # conta e stampa gli indirizzi attivi
+    for host in hosts_list:        # count and print active IPs
         count = count + 1
         print('IP: {0}'.format(host))
     print('-----------------')
-    return count                   # ritorna il numero di indirizzi
+    return count                   # returns the number of addresses
 
 count = new_count = seek()
 
-# controlla che il numero di indirizzi attivi rimanga invariato
+# check if the number of addresses is still the same
 while (new_count <= count):
     new_count = seek()
 
