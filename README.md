@@ -1,12 +1,13 @@
 WiFinder
 ========
-Usando nmap, questo script analizza il numero di host connessi alla rete, per emettere un 'allarme' al variare di esso.
+By using nmap, this script scan the number of hosts connected to the network, to play an 'alarm' when the value changes.
 
-L'obiettivo è quello di sapere con anticipo (a seconda della potenza del segnale), l'arrivo inatteso di eventuali coinquilini.
+The aim is to be warned ahead of time (depending on the signal strength), before unexpected arrival of any roommates.
 
-## Installazione
+## Install
 
-Per usare lo script sono necessari Python ed Nmap, reperibili ai seguenti indirizzi: 
+To run the script are required Python and Nmap, which can be found at the following : 
 
-https://www.python.org/downloads/
-https://nmap.org/download.html
+* https://www.python.org/downloads/
+
+* https://nmap.org/download.html
