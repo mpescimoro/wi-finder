@@ -51,12 +51,13 @@ def seek():                        # defines a function to analize the network
     print('-----------------')
     return count                   # returns the number of addresses
 
-count = new_count = seek()
+if __name__ == '__main__':
+    count = new_count = seek()
 
-# check if the number of addresses is still the same
-while (new_count <= count):
-    new_count = seek()
+    # check if the number of addresses is still the same
+    while (new_count <= count):
+        new_count = seek()
 
-# DANGER!!!
-print('OHSHITOHSHITOHSHITOHSHITOHSHIT!')
-winsound.Beep(1750,1000)
+    # DANGER!!!
+    print('OHSHITOHSHITOHSHITOHSHITOHSHIT!')
+    winsound.Beep(1750,1000)
