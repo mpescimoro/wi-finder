@@ -22,7 +22,6 @@ import sys
 import os
 import nmap                         # import nmap.py
 import time
-import winsound
 
 try:
     nm = nmap.PortScanner()         # creates an'instance of nmap.PortScanner
@@ -51,6 +50,9 @@ def seek():                        # defines a function to analize the network
     print('-----------------')
     return count                   # returns the number of addresses
 
+def beep():                        # avoids OS dependency with a system beep
+    print ('\a')             
+    
 if __name__ == '__main__':
     count = new_count = seek()
 
@@ -60,4 +62,4 @@ if __name__ == '__main__':
 
     # DANGER!!!
     print('OHSHITOHSHITOHSHITOHSHITOHSHIT!')
-    winsound.Beep(1750,1000)
+    beep()
