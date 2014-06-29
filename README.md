@@ -10,4 +10,4 @@ To run the script are required Python and Nmap, which can be found at the follow
 
 * https://www.python.org/downloads/
 
-* https://nmap.org/download.html
+* http://nmap.org/download.html
