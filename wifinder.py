@@ -59,6 +59,7 @@ if __name__ == '__main__':
     # check if the number of addresses is still the same
     while (new_count <= count):
         new_count = seek()
+        time.sleep(1);
 
     # DANGER!!!
     print('OHSHITOHSHITOHSHITOHSHITOHSHIT!')
