@@ -11,3 +11,5 @@ To run the script are required Python and Nmap, which can be found at the follow
 * https://www.python.org/downloads/
 
 * http://nmap.org/download.html
+
+Also, take a look here : https://pypi.python.org/pypi/python-nmap

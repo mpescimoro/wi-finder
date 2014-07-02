@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import sys
 import os
+import sys
 import nmap                         # import nmap.py
 import time
 
@@ -34,24 +34,23 @@ except:
 
 def seek():                        # defines a function to analize the network
     count = 0
-    nm.scan(hosts='192.168.1.0/24', arguments='-n -sP -T4')
-    # runs a quick ping sweep
+    nm.scan(hosts='192.168.1.0/24', arguments='-n -sP -PE -T5')
+    # executes a ping scan
 
-    hosts_list = [(x) for x in nm.all_hosts()]
+    hosts_list = [(nm[x]['addresses']) for x in nm.all_hosts()]
     # saves the host list
 
     localtime = time.asctime(time.localtime(time.time()))
-    print('Local current time :', localtime)
+    print('============ {0} ============'.format(localtime))
     # print out system time
     
-    for host in hosts_list:        # count and print active IPs
+    for addresses in hosts_list:
         count = count + 1
-        print('IP: {0}'.format(host))
-    print('-----------------')
-    return count                   # returns the number of addresses
+        print('FOUND {0}'.format(addresses))
+    return count                   # returns the host number
 
-def beep():                        # avoids OS dependency with a system beep
-    print('\a')             
+def beep():                        # no sound dependency
+    print ('\a')            
     
 if __name__ == '__main__':
     count = new_count = seek()
