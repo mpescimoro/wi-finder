@@ -33,6 +33,7 @@ except:
     sys.exit(0)
 
 def seek():                         # function to scan the network
+    count = 0
     nm.scan(hosts = '192.168.1.0/24', arguments = '-n -sP -PE -T5')
     # executes a ping scan
 
@@ -41,6 +42,7 @@ def seek():                         # function to scan the network
     # system time
     
     for host in nm.all_hosts():
+        count += 1
         try:
             mac = nm[host]['addresses']['mac']
         except:
@@ -48,18 +50,20 @@ def seek():                         # function to scan the network
         host_list = (host, mac)
         print('Host: %s [%s]' % (host, mac))
         
-    return host_list                # returns host_list(ipv4, mac)
+    print('Number of hosts: ' + str(count))
+    return count                # returns count
 
 def beep():                         # no sound dependency
     print('\a')            
     
 if __name__ == '__main__':
-    old_list = new_list = seek()
+    old_count = new_count = seek()
     
     # are there any new hosts?
-    while (new_list <= old_list):
+    while (new_count <= old_count):
         time.sleep(1)               # increase to slow down the speed
-        new_list = seek()
+        old_count = new_count
+        new_count = seek()
 
     # DANGER!!!
     print('OHSHITOHSHITOHSHITOHSHITOHSHIT!')
