@@ -24,7 +24,7 @@ import nmap                         # import nmap.py
 import time
 
 try:
-    nm = nmap.PortScanner()         # creates an'instance of nmap.PortScanner
+    nm = nmap.PortScanner()         # instance of nmap.PortScanner
 except nmap.PortScannerError:
     print('Nmap not found', sys.exc_info()[0])
     sys.exit(0)
@@ -32,33 +32,34 @@ except:
     print("Unexpected error:", sys.exc_info()[0])
     sys.exit(0)
 
-def seek():                        # defines a function to analize the network
-    count = 0
-    nm.scan(hosts='192.168.1.0/24', arguments='-n -sP -PE -T5')
+def seek():                         # function to scan the network
+    nm.scan(hosts = '192.168.1.0/24', arguments = '-n -sP -PE -T5')
     # executes a ping scan
-
-    hosts_list = [(nm[x]['addresses']) for x in nm.all_hosts()]
-    # saves the host list
 
     localtime = time.asctime(time.localtime(time.time()))
     print('============ {0} ============'.format(localtime))
-    # print out system time
+    # system time
     
-    for addresses in hosts_list:
-        count = count + 1
-        print('FOUND {0}'.format(addresses))
-    return count                   # returns the host number
+    for host in nm.all_hosts():
+        try:
+            mac = nm[host]['addresses']['mac']
+        except:
+            mac = 'no data'
+        host_list = (host, mac)
+        print('Host: %s [%s]' % (host, mac))
+        
+    return host_list                # returns host_list(ipv4, mac)
 
-def beep():                        # no sound dependency
-    print ('\a')            
+def beep():                         # no sound dependency
+    print('\a')            
     
 if __name__ == '__main__':
-    count = new_count = seek()
-
-    # check if the number of addresses is still the same
-    while (new_count <= count):
-        new_count = seek()
-        time.sleep(1);
+    old_list = new_list = seek()
+    
+    # are there any new hosts?
+    while (new_list <= old_list):
+        time.sleep(1)               # increase to slow down the speed
+        new_list = seek()
 
     # DANGER!!!
     print('OHSHITOHSHITOHSHITOHSHITOHSHIT!')
