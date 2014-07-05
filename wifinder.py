@@ -22,6 +22,7 @@ import os
 import sys
 import nmap                         # import nmap.py
 import time
+import re
 
 try:
     nm = nmap.PortScanner()         # instance of nmap.PortScanner
@@ -32,7 +33,11 @@ except:
     print("Unexpected error:", sys.exc_info()[0])
     sys.exit(0)
 
+hostList = []
+gracePeriod = 7
+
 def seek():                         # function to scan the network
+    curHosts = []
     nm.scan(hosts = '192.168.1.0/24', arguments = '-n -sP -PE -T5')
     # executes a ping scan
 
@@ -45,21 +50,54 @@ def seek():                         # function to scan the network
             mac = nm[host]['addresses']['mac']
         except:
             mac = 'no data'
-        host_list = (host, mac)
-        print('Host: %s [%s]' % (host, mac))
-        
-    return host_list                # returns host_list(ipv4, mac)
+
+        curHosts.append((host,mac,gracePeriod))
+    
+    updateHostList(curHosts)
+
+    for host in hostList:
+        print('Host: %s\t[%s]\t%s' % (host[0], host[1], host[2]))
+
+    print('Number of hosts: ' + str(len(hostList)))
+    return len(hostList)                # returns count
+
+def updateHostList(curHosts):
+    global hostList
+    if hostList == []:
+        hostList = curHosts
+    else:
+        hostList = [(x[0],x[1],x[2]-1) for x in hostList]
+
+        # only the hosts that were new in this iteration
+        newList = [(x[0],x[1],x[2]) for x in curHosts if not (any(x[0]==y[0] for y in hostList))]
+
+        for host in newList:
+            hostList.append(host)
+
+        for host in hostList:
+            if any(host[0] == y[0] for y in curHosts):
+                hostList[hostList.index(host)] = (host[0],host[1],gracePeriod)
+
+        for host in hostList:
+            if host[2] <= 0:
+                hostList.remove(host)
+
+
 
 def beep():                         # no sound dependency
     print('\a')            
     
 if __name__ == '__main__':
-    old_list = new_list = seek()
+    old_count = new_count = seek()
+
+    startCounter = gracePeriod
     
     # are there any new hosts?
-    while (new_list <= old_list):
+    while (new_count <= old_count) or startCounter >= 0:
+        startCounter -= 1
         time.sleep(1)               # increase to slow down the speed
-        new_list = seek()
+        old_count = new_count
+        new_count = seek()
 
     # DANGER!!!
     print('OHSHITOHSHITOHSHITOHSHITOHSHIT!')
