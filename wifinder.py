@@ -48,15 +48,16 @@ def seek():                         # function to scan the network
     for host in nm.all_hosts():
         try:
             mac = nm[host]['addresses']['mac']
+            vendor = nm[host]['vendor'][mac]
         except:
-            mac = 'no data'
+            vendor = mac = 'unknown'
 
-        curHosts.append((host,mac,gracePeriod))
+        curHosts.append((host,mac,vendor,gracePeriod))
     
     updateHostList(curHosts)
 
     for host in hostList:
-        print('Host: %s\t[%s]\t%s' % (host[0], host[1], host[2]))
+        print('Scan report for %s\nMAC Address: %s (%s)' % (host[0], host[1], host[2]))
 
     print('Number of hosts: ' + str(len(hostList)))
     return len(hostList)                # returns count
@@ -66,20 +67,20 @@ def updateHostList(curHosts):
     if hostList == []:
         hostList = curHosts
     else:
-        hostList = [(x[0],x[1],x[2]-1) for x in hostList]
+        hostList = [(x[0],x[1],x[2],x[3]-1) for x in hostList]
 
         # only the hosts that were new in this iteration
-        newList = [(x[0],x[1],x[2]) for x in curHosts if not (any(x[0]==y[0] for y in hostList))]
+        newList = [(x[0],x[1],x[2],x[3]) for x in curHosts if not (any(x[0]==y[0] for y in hostList))]
 
         for host in newList:
             hostList.append(host)
 
         for host in hostList:
             if any(host[0] == y[0] for y in curHosts):
-                hostList[hostList.index(host)] = (host[0],host[1],gracePeriod)
+                hostList[hostList.index(host)] = (host[0],host[1],host[2],gracePeriod)
 
         for host in hostList:
-            if host[2] <= 0:
+            if host[3] <= 0:
                 hostList.remove(host)
 
 
