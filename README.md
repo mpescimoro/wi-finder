@@ -1,4 +1,4 @@
-<img src="wifinder/static/logo.png" align="right" width="120">
+<img src="wifinder/static/logo.png" align="right" width="80">
 
 # WiFinder
 
