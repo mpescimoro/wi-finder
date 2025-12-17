@@ -1,0 +1,83 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "wifinder"
+version = "2.0.0"
+description = "Know who's home. A simple network presence detector."
+readme = "README.md"
+license = "GPL-3.0-or-later"
+authors = [
+    { name = "Mattia Pescimoro", email = "mattia@pescimoro.com" }
+]
+keywords = ["network", "scanner", "presence", "detection", "nmap", "home-automation"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Environment :: Web Environment",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Home Automation",
+    "Topic :: System :: Networking :: Monitoring",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "python-nmap>=0.7.1",
+    "typer[all]>=0.9.0",
+    "rich>=13.0.0",
+    "pyyaml>=6.0",
+    "httpx>=0.25.0",
+    "flask>=3.0.0",
+    "apscheduler>=3.10.0",
+    "mac-vendor-lookup>=0.1.12",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+telegram = [
+    "python-telegram-bot>=20.0",
+]
+
+[project.scripts]
+wifinder = "wifinder.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/mpescimoro/wi-finder"
+Repository = "https://github.com/mpescimoro/wi-finder"
+Issues = "https://github.com/mpescimoro/wi-finder/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["wifinder"]
+
+[tool.hatch.build.targets.wheel.sources]
+"wifinder" = "wifinder"
+
+[tool.hatch.build]
+include = [
+    "wifinder/**/*.py",
+    "wifinder/static/*",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_ignores = true
